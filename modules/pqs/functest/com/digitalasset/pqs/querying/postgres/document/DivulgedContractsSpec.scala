@@ -170,6 +170,10 @@ object DivulgedContractsSpec extends SharedLedgerAndPostgresTest:
           sql"select count(*) from creates()"
         } `returns` table { 10 }
       And:
+        Postgres
+          .query(sql"select count(*) from contracts('AssetApp:SimpleAsset') where divulged_only")
+          .returns(table(2))
+      And:
         Postgres query {
           sql"select * from summary_creates() order by template_fqn"
         } `returns` table {
